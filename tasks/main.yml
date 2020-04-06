@@ -1,0 +1,7 @@
+- name: Update state of backends
+  script:
+    cmd: "update_backends.py '{{ (backends + [{'state': state, 'route': route, 'apache': apache, 'http': http}] ) | to_json }}'"
+    executable: python3
+  register: uberspace_web_backend_result
+  changed_when: "uberspace_web_backend_result.rc == 2"
+  failed_when: "uberspace_web_backend_result.rc == 1"
