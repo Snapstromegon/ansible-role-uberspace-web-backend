@@ -78,7 +78,7 @@ class Backend:
 
     @staticmethod
     def from_config_text(text):
-        [route, backend_name] = text.split(" => ")[0].split()
+        [route, backend_name] = text.split(" => ")[0].split()[:2]
         if backend_name.startswith("http:"):
             return HTTPBackend(route, int(backend_name.split(":")[1]))
         elif backend_name == "apache":
@@ -86,8 +86,8 @@ class Backend:
 
 
 class ApacheBackend(Backend):
-    def __init__(ApacheBackend, route, state=BackendStates.PRESENT):
-        super(Backend, self).__init__(route, state)
+    def __init__(self, route, state=BackendStates.PRESENT):
+        super().__init__(route, state)
     
     def add(self):
         subprocess.run(["uberspace", "web", "backend", "set", self.route, "--apache"], stdout=subprocess.PIPE, encoding="utf-8")
@@ -95,7 +95,7 @@ class ApacheBackend(Backend):
 
 class HTTPBackend(Backend):
     def __init__(self, route, port, state=BackendStates.PRESENT):
-        super(HTTPBackend, self).__init__(route, state)
+        super().__init__(route, state)
         self.port = port
     
     def add(self):
