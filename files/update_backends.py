@@ -86,7 +86,7 @@ class Backend:
 
 
 class ApacheBackend(Backend):
-    def __init__(self, route, state=BackendStates.PRESENT):
+    def __init__(ApacheBackend, route, state=BackendStates.PRESENT):
         super(Backend, self).__init__(route, state)
     
     def add(self):
@@ -95,7 +95,7 @@ class ApacheBackend(Backend):
 
 class HTTPBackend(Backend):
     def __init__(self, route, port, state=BackendStates.PRESENT):
-        super(Backend, self).__init__(route, state)
+        super(HTTPBackend, self).__init__(route, state)
         self.port = port
     
     def add(self):
