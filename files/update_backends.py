@@ -28,10 +28,9 @@ class BackendManager:
         proc_stdout = subprocess.run(["uberspace", "web", "backend", "list"], stdout=subprocess.PIPE, encoding="utf-8")
         backend_lines = proc_stdout.stdout.splitlines()
         for backend_line in backend_lines:
-            if len(backend_line.strip()) == 0:
-                continue
-
-            existing_backends += [Backend.from_config_text(backend_line)]
+            if len(backend_line.strip()):
+                existing_backends += [Backend.from_config_text(backend_line)]
+                
         return existing_backends
 
     def backend_exists(self, backend):
@@ -88,7 +87,7 @@ class Backend:
 
 class ApacheBackend(Backend):
     def __init__(self, route, state=BackendStates.PRESENT):
-        super().__init__(route, state)
+        super(Backend, self).__init__(route, state)
     
     def add(self):
         subprocess.run(["uberspace", "web", "backend", "set", self.route, "--apache"], stdout=subprocess.PIPE, encoding="utf-8")
@@ -96,7 +95,7 @@ class ApacheBackend(Backend):
 
 class HTTPBackend(Backend):
     def __init__(self, route, port, state=BackendStates.PRESENT):
-        super().__init__(route, state)
+        super(Backend, self).__init__(route, state)
         self.port = port
     
     def add(self):
